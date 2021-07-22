@@ -27,13 +27,13 @@ The project has three core functionalities:
 ### Data Processor
 To run the data processing step, use the `data_processor_main.py` script found within the respective layer of the `ecx_analytics` package. This will populate the data directory with the appropriate data. This data model mimics the delta lake pattern https://databricks.com/blog/2019/08/14/productionizing-machine-learning-with-delta-lake.html in a lightweight manner.
 
-## Price Predictor
+### Price Predictor
 
 The price prediction functionality uses a swagger-based endpoint, this can be running by issuing the command `python -m swagger_server` whilst in the price prediction layer of the package. This will spawn a local server which can be accessed via the browser. 
 
 Once the local server is running, you can issue REST API calls to the server endpoints. Specifying the warehouse ID and target date in April of 2018 will return a prediction for the mid price.
 
-## Visualisation
+### Visualisation
 TBC
 
 ## License
