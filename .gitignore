@@ -1,0 +1,18 @@
+# Environments
+.venv
+
+# Byte files
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+
+# Local settings
+.env_local*
+
+# IPython
+.ipynb_checkpoints
+.vscode
+
+# data
+data/
