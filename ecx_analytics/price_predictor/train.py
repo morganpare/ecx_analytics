@@ -7,7 +7,6 @@ sys.path.append(str(PROJECTPATH))
 
 import pandas as pd
 from sklearn.linear_model import ElasticNet
-import matplotlib.pyplot as plt
 import numpy as np
 import datetime as dt
 import joblib
@@ -25,8 +24,8 @@ class ECXTrainer:
         self.data_path = pathlib.Path.joinpath(self.project_path, "data")
         self.model_path = pathlib.Path.joinpath(self.project_path, "models")
 
-    def load_features_df(self, warehouse):
-        file_path = pathlib.Path.joinpath(self.data_path, "feature_store", f"{warehouse}_with_target_features.pkl")
+    def load_features_df(self, symbol):
+        file_path = pathlib.Path.joinpath(self.data_path, "feature_store", f"{symbol}_with_target_features.pkl")
         df = pd.read_pickle(file_path)
         return df
 
@@ -60,24 +59,23 @@ class ECXTrainer:
     def fit(self, X, y):
         self.model.fit(X, y)
 
-    def save_model(self, model, warehouse):
-        file_path = pathlib.Path.joinpath(self.model_path, f"{warehouse}_model.modelpickle")
-        print(file_path)
+    def save_model(self, model, symbol):
+        file_path = pathlib.Path.joinpath(self.model_path, f"{symbol}_model.modelpickle")
         joblib.dump(model, file_path) 
 
-    def train(self, warehouse):
-        logging.info(f'Training model for {warehouse}')
-        df = self.load_features_df(warehouse)
+    def train(self, symbol):
+        logging.info(f'Training model for {symbol}')
+        df = self.load_features_df(symbol)
         X, y = self.get_X_y(df)
         model, param_set = self.initialise_elastic_net_model()
-        logging.info(f'Finding hyperparameters for {warehouse}')
+        logging.info(f'Finding hyperparameters for {symbol}')
         params = self.find_hyperparameters(model, param_set, X, y)
-        logging.info(f'Hyperparameters found for {warehouse}')
+        logging.info(f'Hyperparameters found for {symbol}')
         self.update_hyperparameters(params)
-        logging.info(f'Fitting model for {warehouse}')
+        logging.info(f'Fitting model for {symbol}')
         self.fit(X, y)
-        self.save_model(self.model, warehouse)
-        logging.info(f'Model trained and saved for {warehouse}')
+        self.save_model(self.model, symbol)
+        logging.info(f'Model trained and saved for {symbol}')
 
 if __name__ == '__main__':
     for w in ['LUBP4','LUBP3','ULK5','UFRAUG']:
