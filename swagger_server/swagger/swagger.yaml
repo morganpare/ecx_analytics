@@ -1,0 +1,84 @@
+openapi: 3.0.1
+info:
+  title: ECX Analytics
+  description: Provides market predictions for the Ethiopian Commodities Exchange
+    (ECX) coffee symbols
+  version: 0.0.1
+servers:
+- url: /ecx_analytics
+tags:
+- name: price
+  description: Price Predictions
+paths:
+  /price/mid_price_prediction:
+    get:
+      tags:
+      - price
+      summary: Predicts mid price for supplied symbol and target date
+      description: Provides prediction for the mid price of a coffee (represented
+        by a symbol) on a target date
+      operationId: mid_price_prediction
+      parameters:
+      - name: symbol
+        in: query
+        description: Coffee identifying symbol
+        required: true
+        style: form
+        explode: true
+        schema:
+          $ref: '#/components/schemas/Symbol'
+      - name: target_date
+        in: query
+        description: Target date to predict for
+        required: true
+        style: form
+        explode: true
+        schema:
+          $ref: '#/components/schemas/TargetDate'
+      responses:
+        "200":
+          description: cards
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MidPriceResponse'
+                x-content-type: application/json
+        "400":
+          description: Invalid symbol value
+          content: {}
+        "404":
+          description: Content not found
+          content: {}
+        "405":
+          description: Validation exception
+          content: {}
+      x-swagger-router-controller: swagger_server.controllers.mid_price_predictor_controller
+      x-openapi-router-controller: swagger_server.controllers.mid_price_predictor_controller
+components:
+  schemas:
+    Symbol:
+      type: string
+      example: LUBP4
+    TargetDate:
+      type: string
+      example: 2018-04-01
+    Value:
+      type: number
+      example: 1000.0
+    Features:
+      type: object
+    MidPriceResponse:
+      type: object
+      properties:
+        value:
+          $ref: '#/components/schemas/Value'
+        Features:
+          $ref: '#/components/schemas/Features'
+      example:
+        value: 1000.0
+        features:
+          feature_1: 1.0
+          feature_2: 2.0
+
