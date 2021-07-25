@@ -2,13 +2,13 @@
 
 # Ethiopian Coffee Exchange (ECX) Analytics Suite
 
-This project was designed to give a basic set of analytics tools for historical data relating to the Ethiopian Coffee Exchange. In particular the initial scope is to provide a proof-of-concept market price prediction API alongside a set of visualisations tool for understanding market characteristics in the past 7 years.
+This project was designed to give a basic set of analytics tools for historical data relating to the Ethiopian Coffee Exchange. The initial scope is to provide a proof-of-concept market price prediction API alongside a set of visualisations tool for understanding market characteristics in the past 7 years.
 
 ## Installation
 
-This repo is python based, so you should use whichever environment manager you prefer to install the relavent packages found in the `requirements.txt` file.
+This repo is python based, so you should use whichever environment manager you prefer to install the relevant packages found in the `requirements.txt` file.
 
-You should also download the relevant dataset from Kaggle Datasets here https://www.kaggle.com/khalidsultan/cdatasets . Create a data directory in the home directory with the following structure:
+You should also download the relevant dataset from Kaggle Datasets here https://www.kaggle.com/khalidsultan/cdatasets . Either run the `make_data_directory.sh` file or create a data directory in the home directory with the following structure:
 - data
   - bronze
   - silver
@@ -29,12 +29,20 @@ To run the data processing step, use the `data_processor_main.py` script found w
 
 ### Price Predictor
 
-The price prediction functionality uses a swagger-based endpoint, this can be running by issuing the command `python -m swagger_server` whilst in the price prediction layer of the package. This will spawn a local server which can be accessed via the browser. 
+The price prediction functionality uses a swagger-based endpoint, this can be running by issuing the command `python -m swagger_server` whilst in the home directory. This will spawn a local server which can be accessed via the browser. There is also a Dockerfile which can be used to spawn a server. 
 
-Once the local server is running, you can issue REST API calls to the server endpoints. Specifying the warehouse ID and target date in April of 2018 will return a prediction for the mid price.
+The application path is `{server}/ecx-analytics` . The swagger UI can be found at `{server}/ecx-analytics/ui`
+
+Once the server is running, you can issue REST API calls to the server endpoints. Specifying the coffee symbol and target date will return a prediction for the mid price. The endpoint supports the following symbols:
+* LUBP4
+* LUBP3
+* ULK5
+* UFRAUG
+
+Dates in April 2018 are supported. This limitation is due to the training set including dates prior to this.
 
 ### Visualisation
-TBC
+Section TBC
 
 ## License
 
